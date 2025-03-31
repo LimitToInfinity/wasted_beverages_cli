@@ -76,7 +76,10 @@ class Cli
   end
 
   def prompt_ask(prompt, options = {})
-    @prompt.ask(prompt, options) { |q| q.modify :strip }
+    @prompt.ask(prompt) do |q|
+      q.modify :strip
+      options.each { |key, value| q.public_send(key, value) }
+    end
   end
 
   def prompt_select(prompt, choices)
